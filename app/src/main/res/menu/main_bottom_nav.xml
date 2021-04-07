@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/newsFragment"
+        android:title="뉴스"
+        android:icon="@drawable/news_bottom_icon"
+        />
+    <item
+        android:id="@+id/favoriteFragment"
+        android:title="좋아요"
+        android:icon="@drawable/favorite_bottom_icon"
+        />
+    <item
+        android:id="@+id/moreFragment"
+        android:title="더보기"
+        android:icon="@drawable/more_bottom_icon"
+        />
+</menu>
