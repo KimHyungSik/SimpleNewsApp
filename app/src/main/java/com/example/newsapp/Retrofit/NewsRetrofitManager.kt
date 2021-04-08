@@ -32,10 +32,62 @@ class NewsRetrofitManager {
 
                response.body()?.let{
                    val parsedNews = ArrayList<NewsModel>()
-                   
+
                    val body = it.asJsonObject
                    Log.d(TAG, "onResponse:let: $body")
-                   completion(RESPONSE_STATUIS.OK, null)
+
+                   val total = body.get("totalResults").asInt
+
+                   if(total == 0){
+                       completion(RESPONSE_STATUIS.NO_CONTENT, null)
+                   }else{
+
+                       body.getAsJsonArray("articles").forEach {
+                           val resultItemObject = it.asJsonObject
+                           var title = ""
+                           var description = ""
+                           var author = ""
+                           var publishedAt = ""
+                           var url = ""
+                           var urlToImage = ""
+
+                           if(!resultItemObject.get("title").isJsonNull){
+                               title = resultItemObject.get("title").asString
+                           }
+
+                           if(!resultItemObject.get("author").isJsonNull){
+                               author = resultItemObject.get("author").asString
+                           }
+
+                           if(!resultItemObject.get("description").isJsonNull){
+                               description = resultItemObject.get("description").asString
+                           }
+
+                           if(!resultItemObject.get("url").isJsonNull){
+                               url = resultItemObject.get("url").asString
+                           }
+
+                           if(!resultItemObject.get("urlToImage").isJsonNull){
+                               urlToImage = resultItemObject.get("urlToImage").asString
+                           }
+
+                           if(!resultItemObject.get("publishedAt").isJsonNull){
+                               publishedAt =resultItemObject.get("publishedAt").asString
+                           }
+
+
+                           val newsModel = NewsModel(
+                                   title,
+                                   author,
+                                   description,
+                                   url,
+                                   urlToImage,
+                                   publishedAt
+                           )
+                           parsedNews.add(newsModel)
+                       }
+                       completion(RESPONSE_STATUIS.OK, parsedNews)
+                   }
                }
             }
 

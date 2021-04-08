@@ -13,5 +13,6 @@ object Utility{
 
 enum class RESPONSE_STATUIS{
     OK,
-    ERROR
+    ERROR,
+    NO_CONTENT
 }
