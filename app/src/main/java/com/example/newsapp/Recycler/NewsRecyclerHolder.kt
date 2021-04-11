@@ -23,10 +23,12 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
         newsTitle.text = newsModel.title
         newsDescription.text = newsModel.description
 
-        Glide.with(App.instance)
+        if(newsModel.urlToImage != "") {
+            Glide.with(App.instance)
                 .load(newsModel.urlToImage)
                 .placeholder(R.drawable.base_photo_icon)
                 .into(newsImage)
+        }
     }
 
 }
