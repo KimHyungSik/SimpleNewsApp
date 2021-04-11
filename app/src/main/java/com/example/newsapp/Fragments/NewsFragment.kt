@@ -1,10 +1,12 @@
 package com.example.newsapp.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +18,8 @@ import com.example.newsapp.databinding.FragmentNewsBinding
 
 class NewsFragment : Fragment(), InRecyclerView {
     private var mBinding : FragmentNewsBinding? = null
-    private val mViewModel : NewsFragmentViewModel by viewModels()
+    // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
+    private val mViewModel : NewsFragmentViewModel by activityViewModels()
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
 
     override fun onCreateView(
@@ -38,7 +41,9 @@ class NewsFragment : Fragment(), InRecyclerView {
             }
         })
 
-        this.mViewModel.getNews()
+        if(mViewModel._newsLiveData.value == null){
+            this.mViewModel.getNews()
+        }
 
         mBinding!!.newsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity?.applicationContext)

@@ -3,6 +3,7 @@
     <color name="mainTheme_color">#2A2F35</color>
     <color name="mainTheme_color_dark">#191C20</color>
     <color name="mainTheme_color_light">#5A6068</color>
+    <color name="mainTheme_gray">#BBBDC1</color>
     <color name="point_color_orange">#FF6F01</color>
     <color name="teal_700">#2A2F35</color>
     <color name="black">#FF000000</color>

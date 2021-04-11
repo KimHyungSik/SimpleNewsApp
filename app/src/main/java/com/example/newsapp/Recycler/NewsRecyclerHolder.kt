@@ -13,8 +13,6 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
 
     private val newsImage: ImageView = itemView.findViewById(R.id.recycler_image_view)
     private val newsTitle: TextView = itemView.findViewById(R.id.recycler_title_text)
-    private val newsAuthor: TextView = itemView.findViewById(R.id.recycler_author_text)
-    private val newsPublishedAt: TextView = itemView.findViewById(R.id.recycler_publishedAt_text)
     private val newsDescription: TextView = itemView.findViewById(R.id.recycler_description_text)
 
     override fun onClick(v: View?) {
@@ -23,8 +21,6 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
 
     fun bindWithView(newsModel: NewsModel) {
         newsTitle.text = newsModel.title
-        newsAuthor.text = newsModel.author
-        newsPublishedAt.text = newsModel.publishedAt
         newsDescription.text = newsModel.description
 
         Glide.with(App.instance)
