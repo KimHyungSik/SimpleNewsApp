@@ -1,5 +1,4 @@
 package com.example.newsapp.Retrofit
-
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -17,13 +16,11 @@ object NewsRetrofitClient {
     private var retrofitClient : Retrofit? = null
     
     fun getClient(baseUrl : String): Retrofit?{
-        Log.d(TAG, "getClient: ")
 
         val client = OkHttpClient.Builder()
 
         val baseParameterInterceptor : Interceptor = (object : Interceptor{
             override fun intercept(chain: Interceptor.Chain): Response {
-                Log.d(TAG, "intercept: -NewsRetrofitClient")
 
                 val originalRequest = chain.request()
 

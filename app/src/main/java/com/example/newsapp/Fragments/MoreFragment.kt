@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.newsapp.databinding.FragmentMoreBinding
-import com.example.newsapp.databinding.FragmentNewsBinding
 
 class MoreFragment : Fragment() {
 

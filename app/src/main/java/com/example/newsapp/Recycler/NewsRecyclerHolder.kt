@@ -3,6 +3,7 @@ package com.example.newsapp.Recycler
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsapp.App
@@ -14,9 +15,16 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
     private val newsImage: ImageView = itemView.findViewById(R.id.recycler_image_view)
     private val newsTitle: TextView = itemView.findViewById(R.id.recycler_title_text)
     private val newsDescription: TextView = itemView.findViewById(R.id.recycler_description_text)
+    private val newsItem:CardView = itemView.findViewById(R.id.recyler_card_item)
+    private var inRecyclerView : InRecyclerView? = null
+
+    init{
+        this.inRecyclerView = inRecyclerView
+        this.newsItem.setOnClickListener(this)
+    }
 
     override fun onClick(v: View?) {
-        //TODO 클릭시 해당 사이트 연
+       this.inRecyclerView?.onClickedNewsItem(adapterPosition)
     }
 
     fun bindWithView(newsModel: NewsModel) {

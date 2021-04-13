@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/mainTheme_gray"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="17dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,8 +68,8 @@
 
             <ImageView
                 android:src="@drawable/favorite_bottom_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@color/point_color_orange"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
