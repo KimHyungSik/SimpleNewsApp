@@ -24,6 +24,7 @@ object NewsRetrofitClient {
 
                 val originalRequest = chain.request()
 
+                // 기본 파라미터 추가
                 val addedUrl = originalRequest.url.newBuilder()
                     .addQueryParameter("apiKey", API_KEY)
                     .build()

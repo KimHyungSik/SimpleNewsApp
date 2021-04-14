@@ -16,4 +16,10 @@ class NewsFragmentViewModel: ViewModel() {
         })
     }
 
+    fun filter(query: String){
+        NewsRetrofitManager.instance.searchHeadlinesNews(query, "kr", completion = { responsState, responseDataArrayList ->
+            _newsLiveData.postValue(responseDataArrayList)
+        })
+    }
+
 }

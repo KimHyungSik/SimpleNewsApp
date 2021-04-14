@@ -1,14 +1,12 @@
 package com.example.newsapp.Fragments
 
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.EditText
-import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -27,10 +25,6 @@ class NewsFragment : Fragment(), InRecyclerView {
     private val mViewModel: NewsFragmentViewModel by activityViewModels()
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
 
-    private lateinit var mSearchView: SearchView
-    private var searchViewEditext: EditText? = null
-    private var queryTextListener: SearchView.OnQueryTextListener? = null
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -38,8 +32,6 @@ class NewsFragment : Fragment(), InRecyclerView {
     ): View? {
         val binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
         mBinding = binding
-
-        setHasOptionsMenu(true)
 
         // 리사이클러 설정
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)
@@ -60,7 +52,15 @@ class NewsFragment : Fragment(), InRecyclerView {
             adapter = newsRecyclerAdapter
         }
 
+        // onCreateOptionsMenu 활성화
+        setHasOptionsMenu(true)
+
         return mBinding?.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(mBinding?.mainTopAppBar)
     }
 
     override fun onDestroyView() {
@@ -77,22 +77,36 @@ class NewsFragment : Fragment(), InRecyclerView {
 
     // 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_top_bar, menu)
-        Log.d(TAG, "onCreateOptionsMenu: ")
+        Log.d(TAG, "onCreateOptionsMenu: $menu")
+        val searchItem = menu.findItem(R.id.search_top_bar_icon)
+        val searchView = searchItem.actionView as SearchView
 
-        val searchItme = menu.findItem(R.id.search_top_bar_icon)
-        val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d(TAG, "onQueryTextSubmit: $query")
 
-        if (searchItme != null) {
-            this.mSearchView = searchItme.actionView as SearchView
+                searchView.clearFocus()
+                mBinding?.mainTopAppBar?.title = query
+
+                mViewModel.filter(query!!)
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+        searchView.apply {
+            this.queryHint = "검색어를 입력하세요"
         }
-
-        this.mSearchView.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected: ")
         return super.onOptionsItemSelected(item)
     }
+
 }
