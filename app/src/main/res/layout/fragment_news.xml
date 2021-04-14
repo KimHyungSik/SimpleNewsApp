@@ -21,6 +21,8 @@
           app:navigationIcon="@drawable/menu_top_bar_icon"
           style="@style/Widget.MaterialComponents.Toolbar.Primary"
           app:layout_scrollFlags="scroll|enterAlways|snap"
+          app:subtitleTextColor="#fff"
+          app:titleTextColor="#fff"
           />
 
    </com.google.android.material.appbar.AppBarLayout>
