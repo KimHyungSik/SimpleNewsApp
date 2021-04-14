@@ -13,15 +13,15 @@ class QueryHistoryRepository(application: Application) {
         db.queryHistroyDao()
     }
 
-    private val queryHistory: LiveData<List<QueryHistory>> by lazy{
+    private val queryHistory: List<QueryHistory> by lazy{
         queryHistoryDao.getAll()
     }
 
-    fun getAllQueryHistory():LiveData<List<QueryHistory>>{
+    suspend fun getAllQueryHistory():List<QueryHistory>{
         return queryHistory
     }
 
-    fun insert(queryHistory: QueryHistory){
+    suspend fun insert(queryHistory: QueryHistory){
         queryHistoryDao.insertQuery(queryHistory)
     }
 }

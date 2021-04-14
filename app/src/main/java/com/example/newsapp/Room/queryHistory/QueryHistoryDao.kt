@@ -8,7 +8,7 @@ import com.example.newsapp.Model.QueryHistory
 interface QueryHistoryDao {
 
     @Query("SELECT * FROM QueryHistory")
-    fun getAll(): LiveData<List<QueryHistory>>
+    fun getAll(): List<QueryHistory>
 
     // ID 충돌 시 동작 결정
     @Insert(onConflict = OnConflictStrategy.REPLACE)

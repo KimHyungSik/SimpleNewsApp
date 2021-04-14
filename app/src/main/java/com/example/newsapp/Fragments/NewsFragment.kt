@@ -21,6 +21,9 @@ import com.example.newsapp.Utils.RESPONSE_STATUIS
 import com.example.newsapp.Utils.Utility.TAG
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
 import com.example.newsapp.databinding.FragmentNewsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.internal.wait
 
 class NewsFragment : Fragment(), InRecyclerView {
@@ -94,7 +97,12 @@ class NewsFragment : Fragment(), InRecyclerView {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d(TAG, "onQueryTextSubmit: $query")
 
-                mViewModel.filter(query!!)
+                mViewModel.apply {
+                    filter(query!!)
+                    CoroutineScope(Dispatchers.Default).launch(){
+                        insertQueryHistory(query)
+                    }
+                }
 
                 searchView.clearFocus()
                 mBinding?.mainTopAppBar?.collapseActionView()

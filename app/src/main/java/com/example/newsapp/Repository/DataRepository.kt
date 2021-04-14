@@ -8,7 +8,7 @@ class DataRepository(application: Application) {
 
     companion object{
         private var instance: DataRepository? = null
-        fun getInstance(application: Application):DataRepository{
+        public fun getInstance(application: Application):DataRepository{
             return instance ?:synchronized(this) {
                 instance ?: DataRepository(application).also {
                     instance = it
