@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.EditText
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -17,14 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
-import com.example.newsapp.Utils.RESPONSE_STATUIS
+import com.example.newsapp.Recycler.QueryHistoryRecyclerAdapter
 import com.example.newsapp.Utils.Utility.TAG
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
 import com.example.newsapp.databinding.FragmentNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 
 class NewsFragment : Fragment(), InRecyclerView {
     private var mBinding: FragmentNewsBinding? = null
@@ -32,6 +30,7 @@ class NewsFragment : Fragment(), InRecyclerView {
     // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
     private val mViewModel: NewsFragmentViewModel by activityViewModels()
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
+    private lateinit var queryHistroyRecyclerAdapter: QueryHistoryRecyclerAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -43,6 +42,7 @@ class NewsFragment : Fragment(), InRecyclerView {
 
         // 리사이클러 설정
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)
+        this.queryHistroyRecyclerAdapter = QueryHistoryRecyclerAdapter()
 
         mViewModel._newsLiveData.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -51,13 +51,27 @@ class NewsFragment : Fragment(), InRecyclerView {
             }
         })
 
+        mViewModel._queryHistory.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "onCreateView: queryHistory observe")
+            this.queryHistroyRecyclerAdapter.submitData(ArrayList(it))
+            this.queryHistroyRecyclerAdapter.notifyDataSetChanged()
+        })
+
         if (mViewModel._newsLiveData.value == null) {
             this.mViewModel.getNews()
+            CoroutineScope(Dispatchers.Default).launch(){
+                mViewModel.getQueryAll()
+            }
         }
 
         mBinding!!.newsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity?.applicationContext)
             adapter = newsRecyclerAdapter
+        }
+
+        mBinding!!.queryHistoryRecycler.apply {
+            layoutManager = LinearLayoutManager(activity?.applicationContext)
+            adapter = queryHistroyRecyclerAdapter
         }
 
         // onCreateOptionsMenu 활성화
@@ -106,7 +120,6 @@ class NewsFragment : Fragment(), InRecyclerView {
 
                 searchView.clearFocus()
                 mBinding?.mainTopAppBar?.collapseActionView()
-
                 return true
             }
 

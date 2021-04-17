@@ -15,7 +15,7 @@ abstract class AppDatabase: RoomDatabase() {
     companion object{
         private const val DATABASE_NAME = "NEWS-APP-DATABASE"
 
-        fun getInstance(context: Context): AppDatabase{
+        public fun getInstance(context: Context): AppDatabase{
             return buildDatabase(context)
         }
 

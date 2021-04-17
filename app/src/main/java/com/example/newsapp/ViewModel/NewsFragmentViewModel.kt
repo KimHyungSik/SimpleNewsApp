@@ -48,11 +48,14 @@ class NewsFragmentViewModel(application: Application): AndroidViewModel(applicat
         })
     }
 
+    suspend fun getQueryAll(){
+        _queryHistory.postValue(dataRepository.queryHistoryRepository.getAllQueryHistory())
+    }
+
     suspend fun insertQueryHistory(query: String){
         // TODO: 입력 날짜 추가
         val queryHistory = QueryHistory(null, query, "")
-        dataRepository.queryHistoryRepository.insert(queryHistory)
-        Log.d(TAG, "insertQueryHistory: ${dataRepository.queryHistoryRepository.getAllQueryHistory()}")
+        _queryHistory.postValue(dataRepository.queryHistoryRepository.insert(queryHistory))
     }
 
 }

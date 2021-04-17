@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "QueryHistory")
 data class QueryHistory (
     @PrimaryKey(autoGenerate = true) val qHid: Int?,
-    @ColumnInfo(name = "qeury") val qeury: String,
+    @ColumnInfo(name = "qeury") val query: String,
     @ColumnInfo(name = "date") val date: String
-)
+){}

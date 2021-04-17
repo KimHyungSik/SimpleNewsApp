@@ -33,4 +33,19 @@
        android:layout_height="match_parent"
        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
        />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+       android:background="#fff"
+       >
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/query_history_recycler"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
+   </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

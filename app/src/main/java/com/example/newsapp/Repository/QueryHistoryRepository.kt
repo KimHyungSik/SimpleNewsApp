@@ -21,7 +21,8 @@ class QueryHistoryRepository(application: Application) {
         return queryHistory
     }
 
-    suspend fun insert(queryHistory: QueryHistory){
+    suspend fun insert(queryHistory: QueryHistory):List<QueryHistory>{
         queryHistoryDao.insertQuery(queryHistory)
+        return getAllQueryHistory()
     }
 }
