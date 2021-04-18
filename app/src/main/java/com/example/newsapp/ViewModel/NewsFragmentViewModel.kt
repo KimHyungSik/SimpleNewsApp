@@ -55,7 +55,13 @@ class NewsFragmentViewModel(application: Application): AndroidViewModel(applicat
     suspend fun insertQueryHistory(query: String){
         // TODO: 입력 날짜 추가
         val queryHistory = QueryHistory(null, query, "")
-        _queryHistory.postValue(dataRepository.queryHistoryRepository.insert(queryHistory))
+        dataRepository.queryHistoryRepository.insert(queryHistory)
+        _queryHistory.postValue(dataRepository.queryHistoryRepository.getAllQueryHistory())
+        Log.d(TAG, "insertQueryHistory: ${dataRepository.queryHistoryRepository.getAllQueryHistory()}")
     }
 
+    suspend fun deleteQueryHistory(queryHistoryIndex: Int){
+        _queryHistory.value?.get(queryHistoryIndex)?.let { dataRepository.queryHistoryRepository.delete(it) }
+        _queryHistory.postValue(dataRepository.queryHistoryRepository.getAllQueryHistory())
+    }
 }

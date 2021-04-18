@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
+import com.example.newsapp.Recycler.InQueryHistoryRecycler
 import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
 import com.example.newsapp.Recycler.QueryHistoryRecyclerAdapter
@@ -23,15 +24,16 @@ import com.example.newsapp.databinding.FragmentNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+// 데이터베이스 접근 할떄 마다 suspend 함수로 계속 코들링 함수를 불러주는데 해결 할 방법 없나?
 
-class NewsFragment : Fragment(), InRecyclerView {
+class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     private var mBinding: FragmentNewsBinding? = null
 
     // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
     private val mViewModel: NewsFragmentViewModel by activityViewModels()
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
     private lateinit var queryHistroyRecyclerAdapter: QueryHistoryRecyclerAdapter
-
+    private var mSearchView: SearchView? = null
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -42,7 +44,7 @@ class NewsFragment : Fragment(), InRecyclerView {
 
         // 리사이클러 설정
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)
-        this.queryHistroyRecyclerAdapter = QueryHistoryRecyclerAdapter()
+        this.queryHistroyRecyclerAdapter = QueryHistoryRecyclerAdapter(this)
 
         mViewModel._newsLiveData.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -106,7 +108,7 @@ class NewsFragment : Fragment(), InRecyclerView {
         inflater.inflate(R.menu.main_top_bar, menu)
         val searchItem = menu.findItem(R.id.search_top_bar_icon)
         val searchView = searchItem.actionView as SearchView
-
+        mSearchView = searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d(TAG, "onQueryTextSubmit: $query")
@@ -126,6 +128,7 @@ class NewsFragment : Fragment(), InRecyclerView {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return true
             }
+
         })
 
         searchView.apply {
@@ -133,6 +136,18 @@ class NewsFragment : Fragment(), InRecyclerView {
             this.findViewById<EditText>(androidx.appcompat.R.id.search_src_text).apply {
                 this.setTextColor(Color.WHITE)
                 this.setHintTextColor(Color.WHITE)
+            }
+            this.setOnQueryTextFocusChangeListener { v, hasFocus ->
+                when(hasFocus){
+                    true->{
+                        mBinding?.queryHistoryView?.visibility = View.VISIBLE
+                        mBinding?.newsRecyclerView?.visibility = View.INVISIBLE
+                    }
+                    false->{
+                        mBinding?.queryHistoryView?.visibility = View.INVISIBLE
+                        mBinding?.newsRecyclerView?.visibility = View.VISIBLE
+                    }
+                }
             }
         }
     }
@@ -144,6 +159,17 @@ class NewsFragment : Fragment(), InRecyclerView {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClickedDeleteQuery(position: Int) {
+        Log.d(TAG, "onClickedDeleteQuery: ")
+        CoroutineScope(Dispatchers.Default).launch(){
+            mViewModel.deleteQueryHistory(position)
+        }
+    }
+
+    override fun onClickedQueryHistory(position: Int) {
+        mSearchView?.setQuery(mViewModel._queryHistory.value?.get(position)?.query, false)
     }
 
 }

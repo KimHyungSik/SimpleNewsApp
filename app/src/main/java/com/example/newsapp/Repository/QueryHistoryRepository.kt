@@ -18,11 +18,14 @@ class QueryHistoryRepository(application: Application) {
     }
 
     suspend fun getAllQueryHistory():List<QueryHistory>{
-        return queryHistory
+        return queryHistoryDao.getAll()
     }
 
-    suspend fun insert(queryHistory: QueryHistory):List<QueryHistory>{
+    suspend fun insert(queryHistory: QueryHistory){
         queryHistoryDao.insertQuery(queryHistory)
-        return getAllQueryHistory()
+    }
+
+    suspend fun delete(queryHistory: QueryHistory){
+        queryHistoryDao.delete(queryHistory)
     }
 }

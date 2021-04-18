@@ -3,21 +3,19 @@ package com.example.newsapp.Recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.model.stream.QMediaStoreUriLoader
 import com.example.newsapp.Model.QueryHistory
 import com.example.newsapp.R
 
-class QueryHistoryRecyclerAdapter: RecyclerView.Adapter<QueryHistoryRecyclerHolder>() {
+class QueryHistoryRecyclerAdapter(private var inQueryHistoryRecycler: InQueryHistoryRecycler): RecyclerView.Adapter<QueryHistoryRecyclerHolder>() {
 
     private var queryArray = ArrayList<QueryHistory>()
-
-    init {
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QueryHistoryRecyclerHolder {
         return QueryHistoryRecyclerHolder(LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.query_history_recycler_item, parent, false)
+                .inflate(R.layout.query_history_recycler_item, parent, false),
+                this.inQueryHistoryRecycler
         )
     }
 
