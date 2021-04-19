@@ -5,6 +5,7 @@ import android.app.Application
 class DataRepository(application: Application) {
 
     val queryHistoryRepository = QueryHistoryRepository(application)
+    val favoriteNewsRepository = FavoriteNewsRepository(application)
 
     companion object{
         private var instance: DataRepository? = null

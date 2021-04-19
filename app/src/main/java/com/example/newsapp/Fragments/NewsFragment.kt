@@ -96,11 +96,16 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         super.onDestroyView()
     }
 
+    // 뉴스 선택 -> 사이트 이장
     override fun onClickedNewsItem(position: Int) {
         Log.d(TAG, "onClickedNewsItem: $position")
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setData(Uri.parse(mViewModel._newsLiveData.value?.get(position)?.url))
         startActivity(intent)
+    }
+
+    // 하트 클릭 뉴스 저
+    override fun onClickedFavorite(position: Int) {
     }
 
     // 메뉴 생성

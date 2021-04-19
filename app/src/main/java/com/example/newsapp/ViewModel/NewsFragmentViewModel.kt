@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsapp.Model.FavoriteNewsModel
 import com.example.newsapp.Model.NewsModel
 import com.example.newsapp.Model.QueryHistory
 import com.example.newsapp.Repository.DataRepository
@@ -63,5 +64,20 @@ class NewsFragmentViewModel(application: Application): AndroidViewModel(applicat
     suspend fun deleteQueryHistory(queryHistoryIndex: Int){
         _queryHistory.value?.get(queryHistoryIndex)?.let { dataRepository.queryHistoryRepository.delete(it) }
         _queryHistory.postValue(dataRepository.queryHistoryRepository.getAllQueryHistory())
+    }
+
+    suspend fun insertFavoriteNews(newsIndex: Int){
+        val favoriteNewsModel = FavoriteNewsModel(
+                null,
+                _newsLiveData.value?.get(newsIndex)?.title!!,
+                _newsLiveData.value?.get(newsIndex)?.author,
+                _newsLiveData.value?.get(newsIndex)?.description,
+                _newsLiveData.value?.get(newsIndex)?.url,
+                _newsLiveData.value?.get(newsIndex)?.urlToImage!!,
+                _newsLiveData.value?.get(newsIndex)?.publishedAt!!
+        )
+
+        dataRepository.favoriteNewsRepository.insert(favoriteNewsModel)
+
     }
 }

@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.newsapp.Model.FavoriteNewsModel
 import com.example.newsapp.Model.QueryHistory
+import com.example.newsapp.Room.favoriteList.FavoriteNewsDao
 import com.example.newsapp.Room.queryHistory.QueryHistoryDao
 // Room Controller
-@Database(version = 1, entities = [QueryHistory::class], exportSchema = false)
+@Database(version = 1, entities = [QueryHistory::class, FavoriteNewsModel::class], exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     public abstract fun queryHistroyDao(): QueryHistoryDao
+    public abstract fun favoriteNewsModel(): FavoriteNewsDao
 
     companion object{
         private const val DATABASE_NAME = "NEWS-APP-DATABASE"
