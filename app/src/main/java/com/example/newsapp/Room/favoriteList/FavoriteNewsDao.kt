@@ -10,10 +10,10 @@ import com.example.newsapp.Model.FavoriteNewsModel
 interface FavoriteNewsDao {
 
     @Query("SELECT * FROM FavoriteNews")
-    fun getAll(): List<FavoriteNewsModel>
+    fun getAll(): ArrayList<FavoriteNewsModel>
 
     @Query("SELECT * FROM FavoriteNews WHERE title LIKE :query")
-    fun searchNewsTitle(query: String): List<FavoriteNewsModel>
+    fun searchNewsTitle(query: String): ArrayList<FavoriteNewsModel>
 
     @Insert
     fun insertNews(favoriteNewsModel: FavoriteNewsModel)

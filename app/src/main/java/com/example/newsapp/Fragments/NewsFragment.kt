@@ -104,8 +104,11 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         startActivity(intent)
     }
 
-    // 하트 클릭 뉴스 저
+    // 하트 클릭 뉴스 저장
     override fun onClickedFavorite(position: Int) {
+        CoroutineScope(Dispatchers.Default).launch {
+            mViewModel.insertFavoriteNews(position)
+        }
     }
 
     // 메뉴 생성

@@ -12,7 +12,7 @@ class FavoriteNewsRepository(application: Application){
         db.favoriteNewsModel()
     }
 
-    fun getAllNews(): List<FavoriteNewsModel>{
+    fun getAllNews(): ArrayList<FavoriteNewsModel>{
         return favoriteNewsDao.getAll()
     }
 
@@ -24,7 +24,7 @@ class FavoriteNewsRepository(application: Application){
         favoriteNewsDao.delete(favoriteNewsModel)
     }
 
-    fun searchTitle(query: String): List<FavoriteNewsModel>{
+    fun searchTitle(query: String): ArrayList<FavoriteNewsModel>{
         return favoriteNewsDao.searchNewsTitle(query)
     }
 }
