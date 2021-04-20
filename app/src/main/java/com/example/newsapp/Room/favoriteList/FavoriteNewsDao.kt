@@ -9,7 +9,7 @@ import com.example.newsapp.Model.FavoriteNewsModel
 @Dao
 interface FavoriteNewsDao {
 
-    @Query("SELECT * FROM FavoriteNewsModel")
+    @Query("SELECT * FROM FavoriteNewsModel ORDER BY newsId DESC")
     fun getAll(): List<FavoriteNewsModel>
 
     @Query("SELECT * FROM FavoriteNewsModel WHERE title LIKE :query")

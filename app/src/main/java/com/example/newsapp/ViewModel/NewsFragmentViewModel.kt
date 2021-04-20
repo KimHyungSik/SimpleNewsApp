@@ -16,6 +16,7 @@ import com.example.newsapp.Room.AppDatabase
 import com.example.newsapp.Utils.NewsDataConverter
 import com.example.newsapp.Utils.RESPONSE_STATUIS
 import com.example.newsapp.Utils.Utility.TAG
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -27,11 +28,15 @@ class NewsFragmentViewModel(application: Application): AndroidViewModel(applicat
 
     var _newsLiveData: MutableLiveData<ArrayList<NewsModel>> = MutableLiveData<ArrayList<NewsModel>>()
     var _queryHistory: MutableLiveData<List<QueryHistory>> = MutableLiveData()
+    var _favoriteNews: MutableLiveData<ArrayList<FavoriteNewsModel>> = MutableLiveData()
 
     fun getNews() {
         NewsRetrofitManager.instance.searchHeadlinesNews("", "kr", completion = { responsState, responseDataArrayList ->
             _newsLiveData.postValue(responseDataArrayList)
         })
+        CoroutineScope(Dispatchers.Default).launch {
+            _favoriteNews.postValue(dataRepository.favoriteNewsRepository.getAllNews())
+        }
     }
 
     fun filter(query: String){
@@ -69,6 +74,11 @@ class NewsFragmentViewModel(application: Application): AndroidViewModel(applicat
 
     suspend fun insertFavoriteNews(newsIndex: Int){
         dataRepository.favoriteNewsRepository.insert(NewsDataConverter.newsToFavorite(_newsLiveData.value?.get(newsIndex)!!))
+        _favoriteNews.postValue(dataRepository.favoriteNewsRepository.getAllNews())
+    }
 
+    suspend fun deleteFavoriteNews(newsIndex: Int){
+        dataRepository.favoriteNewsRepository.delete(_favoriteNews.value?.get(newsIndex)!!)
+        _favoriteNews.postValue(dataRepository.favoriteNewsRepository.getAllNews())
     }
 }

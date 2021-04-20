@@ -1,6 +1,7 @@
 package com.example.newsapp.Recycler
 
 import android.media.Image
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.newsapp.App
 import com.example.newsapp.Model.NewsModel
 import com.example.newsapp.R
+import com.example.newsapp.Utils.Utility.TAG
 
 class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
@@ -23,14 +25,16 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
     init{
         this.inRecyclerView = inRecyclerView
         this.newsItem.setOnClickListener(this)
+        this.favoriteBtn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
+        Log.d(TAG, "onClick: $v")
         when(v){
             favoriteBtn -> {
                 this.inRecyclerView?.onClickedFavorite(adapterPosition)
             }
-            newsImage->{
+            newsItem->{
                 this.inRecyclerView?.onClickedNewsItem(adapterPosition)
             }
         }

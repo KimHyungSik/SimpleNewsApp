@@ -10,7 +10,9 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:liftOnScroll="true">
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/favorite_news_recycler"
+        >
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/favorite_fragment_app_bar"
