@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "FavoriteNews")
+@Entity(tableName = "FavoriteNewsModel")
 data class FavoriteNewsModel(
        @PrimaryKey(autoGenerate = true) val newsId: Int?,
        @ColumnInfo(name = "title") val title: String,

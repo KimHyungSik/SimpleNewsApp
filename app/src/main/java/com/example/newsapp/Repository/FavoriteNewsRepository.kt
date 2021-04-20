@@ -13,7 +13,7 @@ class FavoriteNewsRepository(application: Application){
     }
 
     fun getAllNews(): ArrayList<FavoriteNewsModel>{
-        return favoriteNewsDao.getAll()
+        return favoriteNewsDao.getAll() as ArrayList<FavoriteNewsModel>
     }
 
     fun insert(favoriteNewsModel: FavoriteNewsModel){
@@ -25,6 +25,6 @@ class FavoriteNewsRepository(application: Application){
     }
 
     fun searchTitle(query: String): ArrayList<FavoriteNewsModel>{
-        return favoriteNewsDao.searchNewsTitle(query)
+        return favoriteNewsDao.searchNewsTitle(query) as ArrayList<FavoriteNewsModel>
     }
 }

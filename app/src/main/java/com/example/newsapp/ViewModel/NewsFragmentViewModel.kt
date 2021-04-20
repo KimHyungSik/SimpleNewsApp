@@ -13,6 +13,7 @@ import com.example.newsapp.Model.QueryHistory
 import com.example.newsapp.Repository.DataRepository
 import com.example.newsapp.Retrofit.NewsRetrofitManager
 import com.example.newsapp.Room.AppDatabase
+import com.example.newsapp.Utils.NewsDataConverter
 import com.example.newsapp.Utils.RESPONSE_STATUIS
 import com.example.newsapp.Utils.Utility.TAG
 import kotlinx.coroutines.Dispatchers
@@ -67,17 +68,7 @@ class NewsFragmentViewModel(application: Application): AndroidViewModel(applicat
     }
 
     suspend fun insertFavoriteNews(newsIndex: Int){
-        val favoriteNewsModel = FavoriteNewsModel(
-                null,
-                _newsLiveData.value?.get(newsIndex)?.title!!,
-                _newsLiveData.value?.get(newsIndex)?.author,
-                _newsLiveData.value?.get(newsIndex)?.description,
-                _newsLiveData.value?.get(newsIndex)?.url,
-                _newsLiveData.value?.get(newsIndex)?.urlToImage!!,
-                _newsLiveData.value?.get(newsIndex)?.publishedAt!!
-        )
-
-        dataRepository.favoriteNewsRepository.insert(favoriteNewsModel)
+        dataRepository.favoriteNewsRepository.insert(NewsDataConverter.newsToFavorite(_newsLiveData.value?.get(newsIndex)!!))
 
     }
 }

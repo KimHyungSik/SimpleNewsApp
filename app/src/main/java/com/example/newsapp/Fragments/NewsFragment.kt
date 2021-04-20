@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -106,6 +107,8 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
 
     // 하트 클릭 뉴스 저장
     override fun onClickedFavorite(position: Int) {
+        Log.d(TAG, "onClickedFavorite: ")
+        Toast.makeText(activity, "뉴스저장", Toast.LENGTH_SHORT).show()
         CoroutineScope(Dispatchers.Default).launch {
             mViewModel.insertFavoriteNews(position)
         }

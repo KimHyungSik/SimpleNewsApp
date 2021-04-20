@@ -3,8 +3,10 @@ package com.example.newsapp.Recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapp.Model.FavoriteNewsModel
 import com.example.newsapp.Model.NewsModel
 import com.example.newsapp.R
+import com.example.newsapp.Utils.NewsDataConverter
 
 class NewsRecyclerAdapter(inRecyclerView: InRecyclerView):
                             RecyclerView.Adapter<NewsRecyclerHolder>()
@@ -35,6 +37,14 @@ class NewsRecyclerAdapter(inRecyclerView: InRecyclerView):
     }
 
     fun submitList(newsArray: ArrayList<NewsModel>){
+        this.newsArray = newsArray
+    }
+
+    fun submitList(favoriteNewsModel: ArrayList<FavoriteNewsModel>, i: Int? = null){
+        val newsArray = ArrayList<NewsModel>()
+        for(item in favoriteNewsModel){
+            newsArray.add(NewsDataConverter.favoriteToNews(item))
+        }
         this.newsArray = newsArray
     }
 }

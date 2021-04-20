@@ -1,5 +1,6 @@
 package com.example.newsapp.Recycler
 
+import android.media.Image
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,7 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
     private val newsTitle: TextView = itemView.findViewById(R.id.recycler_title_text)
     private val newsDescription: TextView = itemView.findViewById(R.id.recycler_description_text)
     private val newsItem:CardView = itemView.findViewById(R.id.recyler_card_item)
+    private val favoriteBtn: ImageView = itemView.findViewById(R.id.favorite_button)
     private var inRecyclerView : InRecyclerView? = null
 
     init{
@@ -24,7 +26,14 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
     }
 
     override fun onClick(v: View?) {
-       this.inRecyclerView?.onClickedNewsItem(adapterPosition)
+        when(v){
+            favoriteBtn -> {
+                this.inRecyclerView?.onClickedFavorite(adapterPosition)
+            }
+            newsImage->{
+                this.inRecyclerView?.onClickedNewsItem(adapterPosition)
+            }
+        }
     }
 
     fun bindWithView(newsModel: NewsModel) {
