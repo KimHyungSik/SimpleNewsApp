@@ -25,6 +25,6 @@ class FavoriteNewsRepository(application: Application){
     }
 
     fun searchTitle(query: String): ArrayList<FavoriteNewsModel>{
-        return favoriteNewsDao.searchNewsTitle(query) as ArrayList<FavoriteNewsModel>
+        return favoriteNewsDao.searchNewsTitle("%$query%") as ArrayList<FavoriteNewsModel>
     }
 }

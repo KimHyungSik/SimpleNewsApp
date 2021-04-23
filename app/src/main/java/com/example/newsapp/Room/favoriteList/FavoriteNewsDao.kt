@@ -12,7 +12,7 @@ interface FavoriteNewsDao {
     @Query("SELECT * FROM FavoriteNewsModel ORDER BY newsId DESC")
     fun getAll(): List<FavoriteNewsModel>
 
-    @Query("SELECT * FROM FavoriteNewsModel WHERE title LIKE :query")
+    @Query("SELECT * FROM FavoriteNewsModel WHERE title LIKE :query ORDER BY newsId DESC")
     fun searchNewsTitle(query: String): List<FavoriteNewsModel>
 
     @Insert

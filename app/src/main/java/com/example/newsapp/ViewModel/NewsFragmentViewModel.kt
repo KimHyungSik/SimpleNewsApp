@@ -86,6 +86,10 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
         _favoriteNews.postValue(dataRepository.favoriteNewsRepository.getAllNews())
     }
 
+    suspend fun searchFavoriteNews(query: String){
+        _favoriteNews.postValue(dataRepository.favoriteNewsRepository.searchTitle(query))
+    }
+
     fun changeSearchType(searchType: SEARCH_TYPE){
         this.searchType = searchType
         getNews()
