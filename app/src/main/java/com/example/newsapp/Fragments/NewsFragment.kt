@@ -19,6 +19,7 @@ import com.example.newsapp.Recycler.InQueryHistoryRecycler
 import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
 import com.example.newsapp.Recycler.QueryHistoryRecyclerAdapter
+import com.example.newsapp.Utils.SEARCH_TYPE
 import com.example.newsapp.Utils.Utility.TAG
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
 import com.example.newsapp.databinding.FragmentNewsBinding
@@ -165,8 +166,14 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            android.R.id.home->{
-                Log.d(TAG, "onOptionsItemSelected: home click")
+           R.id.all_contry->{
+               mViewModel.changeSearchType(SEARCH_TYPE.EVERYTHING)
+           }
+            R.id.korea_news->{
+                mViewModel.changeSearchContry("kr")
+            }
+            R.id.jpans_news->{
+                mViewModel.changeSearchContry("jp")
             }
         }
         return super.onOptionsItemSelected(item)

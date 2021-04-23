@@ -20,8 +20,6 @@ class NewsRetrofitManager {
         val instance = NewsRetrofitManager()
     }
 
-
-
     fun searchNews(searchType: SEARCH_TYPE,searchKeywords : String?, country : String, completion: (RESPONSE_STATUIS, ArrayList<NewsModel>?) -> Unit){
         val keyword = searchKeywords ?: ""
 

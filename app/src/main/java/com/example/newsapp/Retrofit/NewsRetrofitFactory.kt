@@ -13,7 +13,11 @@ object NewsRetrofitFactory {
         val inNewsRetrofit : InNewsRetrofit? = NewsRetrofitClient.getClient(API.BASE_URL)?.create(InNewsRetrofit::class.java)
         return when(searchType){
             SEARCH_TYPE.EVERYTHING->{
-                inNewsRetrofit?.defaultEverythinNews(searchKeywords= searchKeyword)
+                if(searchKeyword == ""){
+                    inNewsRetrofit?.defaultEverythinNews(searchKeywords= "a")
+                }else {
+                    inNewsRetrofit?.defaultEverythinNews(searchKeywords = searchKeyword)
+                }
             }
             SEARCH_TYPE.TOPHEADLINES->{
                 inNewsRetrofit?.defaultHeadLinesNews(country, searchKeyword)

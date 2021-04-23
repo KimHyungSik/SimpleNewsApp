@@ -24,12 +24,15 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
 
     var dataRepository = DataRepository.getInstance(application)
 
+    var searchType = SEARCH_TYPE.EVERYTHING
+    var searchCountry:String = "kr"
+
     var _newsLiveData: MutableLiveData<ArrayList<NewsModel>> = MutableLiveData<ArrayList<NewsModel>>()
     var _queryHistory: MutableLiveData<List<QueryHistory>> = MutableLiveData()
     var _favoriteNews: MutableLiveData<ArrayList<FavoriteNewsModel>> = MutableLiveData()
 
     fun getNews() {
-        NewsRetrofitManager.instance.searchNews(SEARCH_TYPE.EVERYTHING, "", "kr", completion = { responsState, responseDataArrayList ->
+        NewsRetrofitManager.instance.searchNews(searchType, "", searchCountry, completion = { responsState, responseDataArrayList ->
             if (responsState == RESPONSE_STATUIS.NO_CONTENT) {
                 Toast.makeText(context, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
             }
@@ -41,7 +44,7 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun filter(query: String) {
-        NewsRetrofitManager.instance.searchNews(SEARCH_TYPE.EVERYTHING, query, "kr", completion = { responsState, responseDataArrayList ->
+        NewsRetrofitManager.instance.searchNews(searchType, query, searchCountry, completion = { responsState, responseDataArrayList ->
             when (responsState) {
                 RESPONSE_STATUIS.OK -> {
                     _newsLiveData.postValue(responseDataArrayList)
@@ -81,5 +84,16 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
     suspend fun deleteFavoriteNews(newsIndex: Int) {
         dataRepository.favoriteNewsRepository.delete(_favoriteNews.value?.get(newsIndex)!!)
         _favoriteNews.postValue(dataRepository.favoriteNewsRepository.getAllNews())
+    }
+
+    fun changeSearchType(searchType: SEARCH_TYPE){
+        this.searchType = searchType
+        getNews()
+    }
+
+    fun changeSearchContry(country: String){
+        this.searchType = SEARCH_TYPE.TOPHEADLINES
+        this.searchCountry = country
+        getNews()
     }
 }
