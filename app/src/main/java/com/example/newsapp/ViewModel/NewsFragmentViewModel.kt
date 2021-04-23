@@ -30,13 +30,17 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
     var _newsLiveData: MutableLiveData<ArrayList<NewsModel>> = MutableLiveData<ArrayList<NewsModel>>()
     var _queryHistory: MutableLiveData<List<QueryHistory>> = MutableLiveData()
     var _favoriteNews: MutableLiveData<ArrayList<FavoriteNewsModel>> = MutableLiveData()
+    var _loading: MutableLiveData<Boolean> = MutableLiveData()
+
 
     fun getNews() {
+        _loading.postValue(true)
         NewsRetrofitManager.instance.searchNews(searchType, "", searchCountry, completion = { responsState, responseDataArrayList ->
             if (responsState == RESPONSE_STATUIS.NO_CONTENT) {
                 Toast.makeText(context, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
             }
             _newsLiveData.postValue(responseDataArrayList)
+            _loading.postValue(false)
         })
         CoroutineScope(Dispatchers.Default).launch {
             _favoriteNews.postValue(dataRepository.favoriteNewsRepository.getAllNews())
@@ -44,6 +48,7 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun filter(query: String) {
+        _loading.postValue(true)
         NewsRetrofitManager.instance.searchNews(searchType, query, searchCountry, completion = { responsState, responseDataArrayList ->
             when (responsState) {
                 RESPONSE_STATUIS.OK -> {
@@ -56,6 +61,7 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
                     Log.d(TAG, "filter: 서버에러")
                 }
             }
+            _loading.postValue(false)
         })
     }
 

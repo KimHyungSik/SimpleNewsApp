@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsapp.LoadingProgress.NewsLoadingProgress
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InQueryHistoryRecycler
 import com.example.newsapp.Recycler.InRecyclerView
@@ -26,6 +27,7 @@ import com.example.newsapp.databinding.FragmentNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 // 데이터베이스 접근 할떄 마다 suspend 함수로 계속 코들링 함수를 불러주는데 해결 할 방법 없나?
 
 class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
@@ -36,6 +38,7 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
     private lateinit var queryHistroyRecyclerAdapter: QueryHistoryRecyclerAdapter
     private var mSearchView: SearchView? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -77,6 +80,16 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
             layoutManager = LinearLayoutManager(activity?.applicationContext)
             adapter = queryHistroyRecyclerAdapter
         }
+
+        // 로딩 관련
+        mViewModel._loading.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "onCreateView:  $it")
+            if(it){
+                NewsLoadingProgress.show(childFragmentManager, "dialog")
+            }else{
+                NewsLoadingProgress.dismiss()
+            }
+        })
 
         // onCreateOptionsMenu 활성화
         setHasOptionsMenu(true)
