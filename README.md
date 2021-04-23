@@ -10,4 +10,14 @@ SimpleNewsApp
 <span><img src="https://user-images.githubusercontent.com/54847106/115878325-63fb0b80-a483-11eb-94a3-e81f54856f66.jpeg" width="250" height="400"></span>
 <span><img src="https://user-images.githubusercontent.com/54847106/115878370-6f4e3700-a483-11eb-8566-4c946bef608b.jpeg"  width="250" height="400"></span>
 
-<span><img src="https://docs.google.com/drawings/d/1jq3ywFAabSNZuPkQaHFG5MqeeWN58P-Cigz9if89yq0/edit?usp=sharing"  width="250" height="400"></span>
+Class hierarchy
+-----------------
+<span><img src="https://user-images.githubusercontent.com/54847106/115881798-14b6da00-a487-11eb-9741-a38621d921bc.jpg"  width="300" height="300"></span>
+
+
+Used AAC
+-------
+1. viewmodel
+2. livedata
+3. room
+4. navigation
