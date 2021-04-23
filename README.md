@@ -9,3 +9,5 @@ SimpleNewsApp
 <span><img src="https://user-images.githubusercontent.com/54847106/115877672-aa039f80-a482-11eb-9f84-56bd21d26ff9.jpeg" width="250" height="400"></span>
 <span><img src="https://user-images.githubusercontent.com/54847106/115878325-63fb0b80-a483-11eb-94a3-e81f54856f66.jpeg" width="250" height="400"></span>
 <span><img src="https://user-images.githubusercontent.com/54847106/115878370-6f4e3700-a483-11eb-8566-4c946bef608b.jpeg"  width="250" height="400"></span>
+
+<span><img src="https://docs.google.com/drawings/d/1jq3ywFAabSNZuPkQaHFG5MqeeWN58P-Cigz9if89yq0/edit?usp=sharing"  width="250" height="400"></span>
