@@ -78,7 +78,6 @@ class FavoriteFragment : Fragment(), InRecyclerView {
         val searchItem = menu.findItem(R.id.search_top_bar_icon)
         val searchView = searchItem.actionView as SearchView
         mSearchView = searchView
-
         searchView.apply {
             this.queryHint = "검색어를 입력하세요"
             this.findViewById<EditText>(androidx.appcompat.R.id.search_src_text).apply {

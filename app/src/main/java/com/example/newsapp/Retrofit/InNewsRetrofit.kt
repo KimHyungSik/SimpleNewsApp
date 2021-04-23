@@ -12,4 +12,8 @@ interface InNewsRetrofit {
     fun defaultHeadLinesNews(@Query("country") contry : String,
                              @Query("q") searchKeywords : String
                              ) : Call<JsonElement>
+
+    @GET(API.BASE_URL_EVERYTHING)
+    fun defaultEverythinNews(@Query("q") searchKeywords: String) :
+            Call<JsonElement>
 }

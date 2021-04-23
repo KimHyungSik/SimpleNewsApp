@@ -1,11 +1,16 @@
 package com.example.newsapp.Retrofit
 
 import android.util.Log
+import android.widget.Toast
 import com.example.newsapp.Model.NewsModel
 import com.example.newsapp.Utils.API.BASE_URL
 import com.example.newsapp.Utils.RESPONSE_STATUIS
+import com.example.newsapp.Utils.SEARCH_TYPE
 import com.example.newsapp.Utils.Utility.TAG
 import com.google.gson.JsonElement
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 
@@ -15,13 +20,13 @@ class NewsRetrofitManager {
         val instance = NewsRetrofitManager()
     }
 
-    private val inNewsRetrofit : InNewsRetrofit? = NewsRetrofitClient.getClient(BASE_URL)?.create(InNewsRetrofit::class.java)
 
-    fun searchHeadlinesNews(searchKeywords : String?, contry : String, completion: (RESPONSE_STATUIS, ArrayList<NewsModel>?) -> Unit){
+
+    fun searchNews(searchType: SEARCH_TYPE,searchKeywords : String?, country : String, completion: (RESPONSE_STATUIS, ArrayList<NewsModel>?) -> Unit){
         val keyword = searchKeywords ?: ""
 
-        val call = inNewsRetrofit?.defaultHeadLinesNews(contry = contry, searchKeywords = keyword) ?: return
-        call.enqueue(object : retrofit2.Callback<JsonElement>{
+        val call = NewsRetrofitFactory.createRetrofit(searchType, country, keyword)
+        call?.enqueue(object : retrofit2.Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.d(TAG, "onFailure: $t")
                 completion(RESPONSE_STATUIS.ERROR, null)

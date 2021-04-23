@@ -8,4 +8,17 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
+    <group
+        android:id="@+id/country_menu_app_bar"
+        >
+        <item
+            android:id="@+id/all_contry"
+            android:title="ALL"
+            />
+        <item
+            android:id="@+id/korea_news"
+            android:title="KR"
+            />
+    </group>
+
 </menu>
