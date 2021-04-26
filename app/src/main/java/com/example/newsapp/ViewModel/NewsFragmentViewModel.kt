@@ -23,9 +23,11 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
     private val context = getApplication<Application>().applicationContext
 
     var dataRepository = DataRepository.getInstance(application)
+    var query = ""
 
     var searchType = SEARCH_TYPE.EVERYTHING
     var searchCountry:String = "kr"
+    var page = 1
 
     var _newsLiveData: MutableLiveData<ArrayList<NewsModel>> = MutableLiveData<ArrayList<NewsModel>>()
     var _queryHistory: MutableLiveData<List<QueryHistory>> = MutableLiveData()
@@ -35,7 +37,9 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
 
     fun getNews() {
         _loading.postValue(true)
-        NewsRetrofitManager.instance.searchNews(searchType, "", searchCountry, completion = { responsState, responseDataArrayList ->
+        this.query = ""
+        this.page = 1
+        NewsRetrofitManager.instance.searchNews(searchType, "", searchCountry, page, completion = { responsState, responseDataArrayList ->
             if (responsState == RESPONSE_STATUIS.NO_CONTENT) {
                 Toast.makeText(context, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
             }
@@ -49,7 +53,8 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
 
     fun filter(query: String) {
         _loading.postValue(true)
-        NewsRetrofitManager.instance.searchNews(searchType, query, searchCountry, completion = { responsState, responseDataArrayList ->
+        this.query = query
+        NewsRetrofitManager.instance.searchNews(searchType, this.query, searchCountry, page, completion = { responsState, responseDataArrayList ->
             when (responsState) {
                 RESPONSE_STATUIS.OK -> {
                     _newsLiveData.postValue(responseDataArrayList)
@@ -64,7 +69,43 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
             _loading.postValue(false)
         })
     }
+    
+    fun addNwesData(){
+        _loading.postValue(true)
+        page += 1
+        NewsRetrofitManager.instance.searchNews(searchType, this.query, searchCountry, page, completion = { responsState, responseDataArrayList ->
+            when (responsState) {
+                RESPONSE_STATUIS.OK -> {
+                    val oldList = _newsLiveData.value
+                    responseDataArrayList?.forEach { 
+                        oldList!!.add(it)
+                    }
+                    Log.d(TAG, "addNwesData: $oldList")
+                    _newsLiveData.postValue(oldList)
+                }
+                RESPONSE_STATUIS.NO_CONTENT -> {
+                    Log.d(TAG, "filter: 검색 데이터가 없습니다")
+                }
+                RESPONSE_STATUIS.ERROR -> {
+                    Log.d(TAG, "filter: 서버에러")
+                }
+            }
+            _loading.postValue(false)
+        })
+    }
+    
+    fun changeSearchType(searchType: SEARCH_TYPE){
+        this.searchType = searchType
+        getNews()
+    }
 
+    fun changeSearchContry(country: String){
+        this.searchType = SEARCH_TYPE.TOPHEADLINES
+        this.searchCountry = country
+        getNews()
+    }
+    
+    // === query history
     suspend fun getQueryAll() {
         _queryHistory.postValue(dataRepository.queryHistoryRepository.getAllQueryHistory())
     }
@@ -96,14 +137,5 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
         _favoriteNews.postValue(dataRepository.favoriteNewsRepository.searchTitle(query))
     }
 
-    fun changeSearchType(searchType: SEARCH_TYPE){
-        this.searchType = searchType
-        getNews()
-    }
 
-    fun changeSearchContry(country: String){
-        this.searchType = SEARCH_TYPE.TOPHEADLINES
-        this.searchCountry = country
-        getNews()
-    }
 }

@@ -20,10 +20,10 @@ class NewsRetrofitManager {
         val instance = NewsRetrofitManager()
     }
 
-    fun searchNews(searchType: SEARCH_TYPE,searchKeywords : String?, country : String, completion: (RESPONSE_STATUIS, ArrayList<NewsModel>?) -> Unit){
+    fun searchNews(searchType: SEARCH_TYPE,searchKeywords : String?, country : String, page: Int, completion: (RESPONSE_STATUIS, ArrayList<NewsModel>?) -> Unit){
         val keyword = searchKeywords ?: ""
 
-        val call = NewsRetrofitFactory.createRetrofit(searchType, country, keyword)
+        val call = NewsRetrofitFactory.createRetrofit(searchType, country, keyword, page)
         call?.enqueue(object : retrofit2.Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.d(TAG, "onFailure: $t")

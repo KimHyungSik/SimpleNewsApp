@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.LoadingProgress.NewsLoadingProgress
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InQueryHistoryRecycler
@@ -97,6 +98,16 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
             navigationIcon = null
             title = "뉴스"
         }
+
+        mBinding!!.newsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val recyclerViewLastposition =mBinding!!.newsRecyclerView.canScrollVertically(1 )
+                if(!recyclerViewLastposition){
+                    mViewModel.addNwesData()
+                }
+            }
+        })
 
         return mBinding?.root
     }
@@ -195,7 +206,7 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     override fun onClickedDeleteQuery(position: Int) {
         Log.d(TAG, "onClickedDeleteQuery: ")
         CoroutineScope(Dispatchers.Default).launch(){
-            mViewModel.deleteQueryHistory(position)
+           mViewModel.deleteQueryHistory(position)
         }
     }
 

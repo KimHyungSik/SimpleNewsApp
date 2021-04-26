@@ -9,11 +9,15 @@ import retrofit2.http.Query
 interface InNewsRetrofit {
 
     @GET(API.BASE_URL_TOPHEADLINES)
-    fun defaultHeadLinesNews(@Query("country") contry : String,
-                             @Query("q") searchKeywords : String
-                             ) : Call<JsonElement>
+    fun defaultHeadLinesNews(@Query("country") contry: String,
+                             @Query("q") searchKeywords: String,
+                             @Query("pageSize") pageSize: Int,
+                             @Query("page") page: Int
+    ): Call<JsonElement>
 
     @GET(API.BASE_URL_EVERYTHING)
-    fun defaultEverythinNews(@Query("q") searchKeywords: String) :
+    fun defaultEverythinNews(@Query("q") searchKeywords: String,
+                             @Query("pageSize") pageSize: Int,
+                             @Query("page") page: Int):
             Call<JsonElement>
 }

@@ -8,19 +8,20 @@ import retrofit2.Call
 object NewsRetrofitFactory {
     fun createRetrofit(searchType: SEARCH_TYPE,
                        country: String,
-                       searchKeyword: String
+                       searchKeyword: String,
+                       page: Int
     ): Call<JsonElement>? {
         val inNewsRetrofit : InNewsRetrofit? = NewsRetrofitClient.getClient(API.BASE_URL)?.create(InNewsRetrofit::class.java)
         return when(searchType){
             SEARCH_TYPE.EVERYTHING->{
                 if(searchKeyword == ""){
-                    inNewsRetrofit?.defaultEverythinNews(searchKeywords= "a")
+                    inNewsRetrofit?.defaultEverythinNews("a", 15, page)
                 }else {
-                    inNewsRetrofit?.defaultEverythinNews(searchKeywords = searchKeyword)
+                    inNewsRetrofit?.defaultEverythinNews(searchKeyword, 15, page)
                 }
             }
             SEARCH_TYPE.TOPHEADLINES->{
-                inNewsRetrofit?.defaultHeadLinesNews(country, searchKeyword)
+                inNewsRetrofit?.defaultHeadLinesNews(country, searchKeyword, 15, page)
             }
         }
     }
