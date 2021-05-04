@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     private var mBinding: FragmentNewsBinding? = null
+    private var title = "뉴스"
 
     // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
     private val mViewModel: NewsFragmentViewModel by activityViewModels()
@@ -52,62 +54,9 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)
         this.queryHistroyRecyclerAdapter = QueryHistoryRecyclerAdapter(this)
 
-        mViewModel._newsLiveData.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                this.newsRecyclerAdapter.submitList(it)
-                this.newsRecyclerAdapter.notifyDataSetChanged()
-            }
-        })
-
-        mViewModel._queryHistory.observe(viewLifecycleOwner, Observer {
-            Log.d(TAG, "onCreateView: queryHistory observe")
-            this.queryHistroyRecyclerAdapter.submitData(ArrayList(it))
-            this.queryHistroyRecyclerAdapter.notifyDataSetChanged()
-        })
-
-        if (mViewModel._newsLiveData.value == null) {
-            this.mViewModel.getNews()
-            CoroutineScope(Dispatchers.Default).launch(){
-                mViewModel.getQueryAll()
-            }
-        }
-
-        mBinding!!.newsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(activity?.applicationContext)
-            adapter = newsRecyclerAdapter
-        }
-
-        mBinding!!.queryHistoryRecycler.apply {
-            layoutManager = LinearLayoutManager(activity?.applicationContext)
-            adapter = queryHistroyRecyclerAdapter
-        }
-
-        // 로딩 관련
-        mViewModel._loading.observe(viewLifecycleOwner, Observer {
-            Log.d(TAG, "onCreateView:  $it")
-            if(it){
-                NewsLoadingProgress.show(childFragmentManager, "dialog")
-            }else{
-                NewsLoadingProgress.dismiss()
-            }
-        })
-
-        // onCreateOptionsMenu 활성화
-        setHasOptionsMenu(true)
-        mBinding?.mainTopAppBar?.apply {
-            navigationIcon = null
-            title = "뉴스"
-        }
-
-        mBinding!!.newsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val recyclerViewLastposition =mBinding!!.newsRecyclerView.canScrollVertically(1 )
-                if(!recyclerViewLastposition){
-                    mViewModel.addNwesData()
-                }
-            }
-        })
+        viewModel()
+        viewBinding()
+        dataBinding()
 
         return mBinding?.root
     }
@@ -148,6 +97,7 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d(TAG, "onQueryTextSubmit: $query")
+                 mBinding!!.title = query?: ""
 
                 mViewModel.apply {
                     filter(query!!)
@@ -214,4 +164,69 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         mSearchView?.setQuery(mViewModel._queryHistory.value?.get(position)?.query, false)
     }
 
+    private fun dataBinding(){
+        mBinding!!.title = this.title
+       // mDataBinding!!.title = this.title
+    }
+
+    private fun viewBinding(){
+        // onCreateOptionsMenu 활성화
+        setHasOptionsMenu(true)
+        mBinding?.mainTopAppBar?.apply {
+            navigationIcon = null
+        }
+
+        mBinding!!.newsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val recyclerViewLastposition =mBinding!!.newsRecyclerView.canScrollVertically(1 )
+                if(!recyclerViewLastposition){
+                    mViewModel.addNwesData()
+                }
+            }
+        })
+
+        mBinding!!.newsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(activity?.applicationContext)
+            adapter = newsRecyclerAdapter
+        }
+
+        mBinding!!.queryHistoryRecycler.apply {
+            layoutManager = LinearLayoutManager(activity?.applicationContext)
+            adapter = queryHistroyRecyclerAdapter
+        }
+    }
+
+    private fun viewModel(){
+        // 뉴스 리스트 변경
+        mViewModel._newsLiveData.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                this.newsRecyclerAdapter.submitList(it)
+                this.newsRecyclerAdapter.notifyDataSetChanged()
+            }
+        })
+        // 검색어 저장 변
+        mViewModel._queryHistory.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "onCreateView: queryHistory observe")
+            this.queryHistroyRecyclerAdapter.submitData(ArrayList(it))
+            this.queryHistroyRecyclerAdapter.notifyDataSetChanged()
+        })
+
+        if (mViewModel._newsLiveData.value == null) {
+            this.mViewModel.getNews()
+            CoroutineScope(Dispatchers.Default).launch(){
+                mViewModel.getQueryAll()
+            }
+        }
+
+        // 로딩 관련
+        mViewModel._loading.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "onCreateView:  $it")
+            if(it){
+                NewsLoadingProgress.show(childFragmentManager, "dialog")
+            }else{
+                NewsLoadingProgress.dismiss()
+            }
+        })
+    }
 }

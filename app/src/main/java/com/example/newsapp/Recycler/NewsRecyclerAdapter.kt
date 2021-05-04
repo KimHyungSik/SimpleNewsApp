@@ -12,7 +12,7 @@ class NewsRecyclerAdapter(inRecyclerView: InRecyclerView):
                             RecyclerView.Adapter<NewsRecyclerHolder>()
 {
 
-    private var newsArray = ArrayList<NewsModel>()
+     var newsArray = ArrayList<NewsModel>()
     var iRecycler : InRecyclerView? = null
 
     init{

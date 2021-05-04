@@ -1,4 +1,4 @@
-t package com.example.newsapp.Retrofit
+package com.example.newsapp.Retrofit
 
 import android.util.Log
 import android.widget.Toast
