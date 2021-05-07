@@ -1,4 +1,3 @@
-
 SimpleNewsApp
 ==================
 
@@ -12,7 +11,7 @@ SimpleNewsApp
 <span><img src="https://user-images.githubusercontent.com/54847106/115878370-6f4e3700-a483-11eb-8566-4c946bef608b.jpeg"  width="300" height="440"></span>
 <div></div>
 <span><img src="https://user-images.githubusercontent.com/54847106/117428658-3b820f80-af61-11eb-9bdc-219c2613fbd2.jpeg"  width="300" height="440"></span>
-<span><img src="https://user-images.githubusercontent.com/54847106/117428789-5785b100-af61-11eb-8d6f-b1ce61650ec4.jpeg"  width="300" height="440"></span>
+<span><img src="https://user-images.githubusercontent.com/54847106/117428882-6f5d3500-af61-11eb-81b9-338d19726f72.jpeg"  width="300" height="440"></span>
 
 
 Class hierarchy
