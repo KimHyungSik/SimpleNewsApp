@@ -22,9 +22,11 @@ import com.example.newsapp.Recycler.InQueryHistoryRecycler
 import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
 import com.example.newsapp.Recycler.QueryHistoryRecyclerAdapter
+import com.example.newsapp.Repository.DataRepository
 import com.example.newsapp.Utils.SEARCH_TYPE
 import com.example.newsapp.Utils.Utility.TAG
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
+import com.example.newsapp.ViewModel.ViewModelFactory
 import com.example.newsapp.databinding.FragmentNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +39,8 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     private var title = "뉴스"
 
     // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
-    private val mViewModel: NewsFragmentViewModel by activityViewModels()
+
+    private lateinit var mViewModel: NewsFragmentViewModel
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
     private lateinit var queryHistroyRecyclerAdapter: QueryHistoryRecyclerAdapter
     private var mSearchView: SearchView? = null
@@ -49,6 +52,8 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     ): View? {
         val binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
         mBinding = binding
+
+        mViewModel = ViewModelFactory(activity?.application!!).create(NewsFragmentViewModel::class.java)
 
         // 리사이클러 설정
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)

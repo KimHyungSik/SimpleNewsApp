@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.newsapp.Model.FavoriteNewsModel
 import com.example.newsapp.Model.NewsModel
 import com.example.newsapp.Model.QueryHistory
@@ -17,12 +18,10 @@ import com.example.newsapp.Utils.Utility.TAG
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewsFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class NewsFragmentViewModel (val dataRepository: DataRepository) : ViewModel() {
 
-    private val context = getApplication<Application>().applicationContext
-
-    var dataRepository = DataRepository.getInstance(application)
     var query = ""
 
     var searchType = SEARCH_TYPE.EVERYTHING
@@ -40,9 +39,6 @@ class NewsFragmentViewModel(application: Application) : AndroidViewModel(applica
         this.query = ""
         this.page = 1
         NewsRetrofitManager.instance.searchNews(searchType, "", searchCountry, page, completion = { responsState, responseDataArrayList ->
-            if (responsState == RESPONSE_STATUIS.NO_CONTENT) {
-                Toast.makeText(context, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
-            }
             _newsLiveData.postValue(responseDataArrayList)
             _loading.postValue(false)
         })

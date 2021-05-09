@@ -17,17 +17,20 @@ import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
 import com.example.newsapp.Utils.Utility
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
+import com.example.newsapp.ViewModel.ViewModelFactory
 import com.example.newsapp.databinding.FragmentFavoriteBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class FavoriteFragment : Fragment(), InRecyclerView {
 
     private var mBinding : FragmentFavoriteBinding? = null
 
-    private val mViewModel: NewsFragmentViewModel by activityViewModels()
+    private lateinit var mViewModel: NewsFragmentViewModel
+
     private lateinit var favoriteNewsRecylerAadpter: NewsRecyclerAdapter
     private var mSearchView: SearchView? = null
 
@@ -39,6 +42,7 @@ class FavoriteFragment : Fragment(), InRecyclerView {
 
         val binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
         mBinding = binding
+        mViewModel = ViewModelFactory(activity?.application!!).create(NewsFragmentViewModel::class.java)
 
         this.favoriteNewsRecylerAadpter = NewsRecyclerAdapter(this)
 
