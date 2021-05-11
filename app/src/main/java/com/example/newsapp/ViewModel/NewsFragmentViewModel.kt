@@ -22,6 +22,13 @@ import javax.inject.Inject
 
 class NewsFragmentViewModel (val dataRepository: DataRepository) : ViewModel() {
 
+    companion object {
+        private var instance: NewsFragmentViewModel? = null
+        fun getInstance(dataRepository: DataRepository) = instance ?: synchronized(NewsFragmentViewModel::class.java) {
+            instance ?: NewsFragmentViewModel(dataRepository).also { instance = it }
+        }
+    }
+
     var query = ""
 
     var searchType = SEARCH_TYPE.EVERYTHING

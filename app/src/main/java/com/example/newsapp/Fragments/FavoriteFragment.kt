@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InRecyclerView
@@ -42,7 +43,7 @@ class FavoriteFragment : Fragment(), InRecyclerView {
 
         val binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
         mBinding = binding
-        mViewModel = ViewModelFactory(activity?.application!!).create(NewsFragmentViewModel::class.java)
+        mViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(activity?.application!!)).get(NewsFragmentViewModel::class.java)
 
         this.favoriteNewsRecylerAadpter = NewsRecyclerAdapter(this)
 

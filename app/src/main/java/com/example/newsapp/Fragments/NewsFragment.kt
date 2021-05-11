@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.LoadingProgress.NewsLoadingProgress
@@ -53,7 +54,7 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         val binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
         mBinding = binding
 
-        mViewModel = ViewModelFactory(activity?.application!!).create(NewsFragmentViewModel::class.java)
+        mViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(activity?.application!!)).get(NewsFragmentViewModel::class.java)
 
         // 리사이클러 설정
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)
@@ -218,6 +219,7 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         })
 
         if (mViewModel._newsLiveData.value == null) {
+            Log.d(TAG, "viewModel: loading data")
             this.mViewModel.getNews()
             CoroutineScope(Dispatchers.Default).launch(){
                 mViewModel.getQueryAll()
