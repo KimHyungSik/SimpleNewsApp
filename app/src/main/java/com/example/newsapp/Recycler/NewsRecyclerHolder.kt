@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.newsapp.App
 import com.example.newsapp.Model.NewsModel
+import com.example.newsapp.MyApplication
 import com.example.newsapp.R
 import com.example.newsapp.Utils.Utility.TAG
 
@@ -45,7 +45,7 @@ class NewsRecyclerHolder(itemView : View, inRecyclerView: InRecyclerView) : Recy
         newsDescription.text = newsModel.description
 
         if(newsModel.urlToImage != "") {
-            Glide.with(App.instance)
+            Glide.with(MyApplication.instance)
                 .load(newsModel.urlToImage)
                 .placeholder(R.drawable.base_photo_icon)
                 .into(newsImage)

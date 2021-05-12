@@ -1,9 +1,8 @@
 package com.example.newsapp.Retrofit
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
-import com.example.newsapp.App
+import com.example.newsapp.MyApplication
 import com.example.newsapp.Utils.API.API_KEY
 import com.example.newsapp.Utils.Utility.TAG
 import okhttp3.Interceptor
@@ -37,7 +36,7 @@ object NewsRetrofitClient {
                 val response = chain.proceed(finalRequest)
                 if(response.code != 200){
                     Handler(Looper.getMainLooper()).post{
-                        Toast.makeText(App.instance, "${response.code} 에러입니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(MyApplication.instance, "${response.code} 에러입니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 return response

@@ -1,6 +1,8 @@
 package com.example.newsapp.Repository
 
 import android.app.Application
+import dagger.Module
+import dagger.Provides
 
 class DataRepository(application: Application) {
 

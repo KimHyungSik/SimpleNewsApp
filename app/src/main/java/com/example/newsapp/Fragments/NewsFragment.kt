@@ -1,5 +1,6 @@
 package com.example.newsapp.Fragments
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -18,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.LoadingProgress.NewsLoadingProgress
+import com.example.newsapp.MainActivity
+import com.example.newsapp.MyApplication
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InQueryHistoryRecycler
 import com.example.newsapp.Recycler.InRecyclerView
@@ -65,6 +68,11 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         dataBinding()
 
         return mBinding?.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
