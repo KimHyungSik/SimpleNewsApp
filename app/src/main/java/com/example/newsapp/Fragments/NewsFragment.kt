@@ -27,6 +27,7 @@ import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
 import com.example.newsapp.Recycler.QueryHistoryRecyclerAdapter
 import com.example.newsapp.Repository.DataRepository
+import com.example.newsapp.Test.RepositoryDaggerTest
 import com.example.newsapp.Utils.SEARCH_TYPE
 import com.example.newsapp.Utils.Utility.TAG
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
@@ -35,6 +36,7 @@ import com.example.newsapp.databinding.FragmentNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 // 데이터베이스 접근 할떄 마다 suspend 함수로 계속 코들링 함수를 불러주는데 해결 할 방법 없나?
 
@@ -43,6 +45,8 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     private var title = "뉴스"
 
     // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
+    @Inject
+    lateinit var repositoryDaggerTest: RepositoryDaggerTest
 
     private lateinit var mViewModel: NewsFragmentViewModel
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
@@ -66,6 +70,10 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         viewModel()
         viewBinding()
         dataBinding()
+
+        CoroutineScope(Dispatchers.Default).launch {
+            repositoryDaggerTest.repositoryTest()
+        }
 
         return mBinding?.root
     }

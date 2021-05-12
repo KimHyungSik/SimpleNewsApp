@@ -1,14 +1,15 @@
 package com.example.newsapp.Repository
 
 import android.app.Application
+import android.content.Context
 import com.example.newsapp.Model.FavoriteNewsModel
 import com.example.newsapp.Room.AppDatabase
 import com.example.newsapp.Room.favoriteList.FavoriteNewsDao
 
-class FavoriteNewsRepository(application: Application){
+class FavoriteNewsRepository(context: Context){
 
     private val favoriteNewsDao: FavoriteNewsDao by lazy{
-        val db = AppDatabase.getInstance(application)
+        val db = AppDatabase.getInstance(context)
         db.favoriteNewsModel()
     }
 

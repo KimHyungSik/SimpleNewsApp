@@ -6,7 +6,9 @@ import com.example.newsapp.MainActivity
 import com.example.newsapp.Repository.DataRepository
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
+@Singleton
 @Component(modules = [
     ApplicationModule::class,
     DataRepositryModule::class

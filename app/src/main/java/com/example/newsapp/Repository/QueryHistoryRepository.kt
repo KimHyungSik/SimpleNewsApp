@@ -1,15 +1,16 @@
 package com.example.newsapp.Repository
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.newsapp.Room.AppDatabase
 import com.example.newsapp.Model.QueryHistory
 import com.example.newsapp.Room.queryHistory.QueryHistoryDao
 
-class QueryHistoryRepository(application: Application) {
+class QueryHistoryRepository(context: Context) {
 
     private val queryHistoryDao: QueryHistoryDao by lazy{
-        val db = AppDatabase.getInstance(application)
+        val db = AppDatabase.getInstance(context)
         db.queryHistroyDao()
     }
 
