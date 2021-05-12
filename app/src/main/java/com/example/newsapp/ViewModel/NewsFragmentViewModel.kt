@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NewsFragmentViewModel (val dataRepository: DataRepository) : ViewModel() {
+class NewsFragmentViewModel @Inject constructor(val dataRepository: DataRepository) : ViewModel() {
 
     companion object {
         private var instance: NewsFragmentViewModel? = null

@@ -1,5 +1,6 @@
 package com.example.newsapp.Fragments
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -13,9 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsapp.MainActivity
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
+import com.example.newsapp.Test.RepositoryDaggerTest
 import com.example.newsapp.Utils.Utility
 import com.example.newsapp.ViewModel.NewsFragmentViewModel
 import com.example.newsapp.ViewModel.ViewModelFactory
@@ -30,6 +33,9 @@ class FavoriteFragment : Fragment(), InRecyclerView {
 
     private var mBinding : FragmentFavoriteBinding? = null
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private lateinit var mViewModel: NewsFragmentViewModel
 
     private lateinit var favoriteNewsRecylerAadpter: NewsRecyclerAdapter
@@ -43,7 +49,7 @@ class FavoriteFragment : Fragment(), InRecyclerView {
 
         val binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
         mBinding = binding
-        mViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(activity?.application!!)).get(NewsFragmentViewModel::class.java)
+        mViewModel = ViewModelProvider(this, viewModelFactory).get(NewsFragmentViewModel::class.java)
 
         this.favoriteNewsRecylerAadpter = NewsRecyclerAdapter(this)
 
@@ -70,6 +76,11 @@ class FavoriteFragment : Fragment(), InRecyclerView {
             title = "저장한 뉴스"
         }
         return mBinding?.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -11,22 +11,18 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.LoadingProgress.NewsLoadingProgress
 import com.example.newsapp.MainActivity
-import com.example.newsapp.MyApplication
 import com.example.newsapp.R
 import com.example.newsapp.Recycler.InQueryHistoryRecycler
 import com.example.newsapp.Recycler.InRecyclerView
 import com.example.newsapp.Recycler.NewsRecyclerAdapter
 import com.example.newsapp.Recycler.QueryHistoryRecyclerAdapter
-import com.example.newsapp.Repository.DataRepository
 import com.example.newsapp.Test.RepositoryDaggerTest
 import com.example.newsapp.Utils.SEARCH_TYPE
 import com.example.newsapp.Utils.Utility.TAG
@@ -47,6 +43,8 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
     // 플래그 먼트간의 데이터 연결을 위해 activityViewModels 사용
     @Inject
     lateinit var repositoryDaggerTest: RepositoryDaggerTest
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var mViewModel: NewsFragmentViewModel
     private lateinit var newsRecyclerAdapter: NewsRecyclerAdapter
@@ -61,7 +59,7 @@ class NewsFragment : Fragment(), InRecyclerView, InQueryHistoryRecycler{
         val binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
         mBinding = binding
 
-        mViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(activity?.application!!)).get(NewsFragmentViewModel::class.java)
+        mViewModel = ViewModelProvider(this, viewModelFactory).get(NewsFragmentViewModel::class.java)
 
         // 리사이클러 설정
         this.newsRecyclerAdapter = NewsRecyclerAdapter(this)

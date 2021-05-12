@@ -1,6 +1,7 @@
 package com.example.newsapp.dagger.di
 
 import android.content.Context
+import com.example.newsapp.Fragments.FavoriteFragment
 import com.example.newsapp.Fragments.NewsFragment
 import com.example.newsapp.MainActivity
 import com.example.newsapp.Repository.DataRepository
@@ -11,10 +12,13 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     ApplicationModule::class,
-    DataRepositryModule::class
+    DataRepositryModule::class,
+    ViewModelModuel::class,
+    ViewModelFactoryModule::class
 ])
 interface AppComponent {
 
     fun inject(activity: MainActivity)
     fun inject(fragment: NewsFragment)
+    fun inject(fragment: FavoriteFragment)
 }
