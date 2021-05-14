@@ -5,9 +5,12 @@ import com.example.newsapp.ViewModel.NewsFragmentViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Module
 abstract class ViewModelModuel {
+
+    @Singleton
     @Binds
     @IntoMap
     @ViewModelKey(NewsFragmentViewModel::class)
