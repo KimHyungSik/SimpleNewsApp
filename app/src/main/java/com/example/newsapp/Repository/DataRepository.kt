@@ -4,17 +4,15 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import javax.inject.Inject
 
-class DataRepository(context: Context) {
-
-    val queryHistoryRepository = QueryHistoryRepository(context)
-    val favoriteNewsRepository = FavoriteNewsRepository(context)
+class DataRepository (val queryHistoryRepository: QueryHistoryRepository, val favoriteNewsRepository: FavoriteNewsRepository ) {
 
     companion object{
         private var instance: DataRepository? = null
-        public fun getInstance(context: Context):DataRepository{
+        public fun getInstance(queryHistoryRepository: QueryHistoryRepository, favoriteNewsRepository: FavoriteNewsRepository):DataRepository{
             return instance ?:synchronized(this) {
-                instance ?: DataRepository(context).also {
+                instance ?: DataRepository(queryHistoryRepository, favoriteNewsRepository).also {
                     instance = it
                 }
             }
