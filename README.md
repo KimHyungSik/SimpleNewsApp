@@ -25,3 +25,4 @@ Used AAC
 2. livedata
 3. room
 4. navigation
+5. dagger2
